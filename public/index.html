@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Suivi des Commandes - Application E-commerce</title>
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css"
+        />
+        <link rel="stylesheet" href="./style.css" />
+    </head>
+    <body>
+        <!-- Navigation -->
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="#">Suivi des Commandes</a>
+                <button
+                    class="navbar-toggler"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#navbarNav"
+                    aria-controls="navbarNav"
+                    aria-expanded="false"
+                    aria-label="Toggle navigation"
+                >
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item">
+                            <a
+                                class="nav-link active"
+                                href="#"
+                                data-show="commande"
+                            >
+                                Commandes
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" data-show="client">
+                                Clients
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" data-show="paiement">
+                                Paiements
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <div class="container my-5">
+            <!-- Liste des Commandes -->
+            <section id="commande-liste" class="mb-5">
+                <h3>Liste des Commandes</h3>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Client</th>
+                            <th>Date</th>
+                            <th>Statut</th>
+                            <th class="text-end">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="commande-table">
+                        <!-- Les commandes seront insérées ici dynamiquement -->
+                    </tbody>
+                </table>
+            </section>
+
+            <!-- Formulaire pour Ajouter/Modifier une Commande -->
+            <section id="commande-formulaire" class="mb-5">
+                <h3>Ajouter / Modifier une Commande</h3>
+                <form id="commandeForm">
+                    <div class="mb-3">
+                        <label for="client_id" class="form-label"
+                            >ID Client</label
+                        >
+                        <input
+                            type="text"
+                            class="form-control"
+                            id="client_id"
+                            required
+                        />
+                    </div>
+                    <div class="mb-3">
+                        <label for="date_commande" class="form-label"
+                            >Date de Commande</label
+                        >
+                        <input
+                            type="date"
+                            class="form-control"
+                            id="date_commande"
+                            required
+                        />
+                    </div>
+                    <div class="mb-3">
+                        <label for="statut" class="form-label">Statut</label>
+                        <input
+                            type="text"
+                            class="form-control"
+                            id="statut"
+                            required
+                        />
+                    </div>
+
+                    <!-- Détails de la commande -->
+                    <h5>Détails de la Commande</h5>
+                    <div id="details-list">
+                        <!-- Contenu des détails de la commande sera inséré ici dynamiquement -->
+                    </div>
+                    <div
+                        class="d-flex align-items-center justify-content-start gap-3"
+                    >
+                        <button
+                            type="button"
+                            class="btn btn-secondary"
+                            onclick="ajouterDetailCommande()"
+                        >
+                            Ajouter un Détail
+                        </button>
+
+                        <button type="submit" class="btn btn-primary">
+                            Enregistrer
+                        </button>
+                    </div>
+                </form>
+            </section>
+
+            <!-- Détails de la Commande Sélectionnée -->
+            <section id="commande-details" style="display: none">
+                <h3>Détails de la Commande</h3>
+                <p>ID Commande : <span id="commande-id"></span></p>
+                <p>Client ID : <span id="commande-client-id"></span></p>
+                <p>Date : <span id="commande-date"></span></p>
+                <p>Statut : <span id="commande-statut"></span></p>
+                <h5>Articles de la Commande</h5>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Produit</th>
+                            <th>Quantité</th>
+                            <th>Prix Unitaire</th>
+                        </tr>
+                    </thead>
+                    <tbody id="details-table">
+                        <!-- Détails des articles seront insérés ici dynamiquement -->
+                    </tbody>
+                </table>
+                <button class="btn btn-secondary" onclick="fermerDetails()">
+                    Fermer
+                </button>
+            </section>
+
+            <!-- Section Clients -->
+            <section id="clients-section" class="my-5">
+                <h2>Gestion des Clients</h2>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nom</th>
+                            <th>Email</th>
+                            <th>Téléphone</th>
+                            <th>Adresse</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="client-table">
+                        <!-- Liste des clients sera chargée ici -->
+                    </tbody>
+                </table>
+                <form id="clientForm" class="my-3">
+                    <h4>Ajouter ou Modifier un Client</h4>
+                    <div class="form-group mb-3">
+                        <input
+                            type="text"
+                            id="nom"
+                            placeholder="Nom"
+                            class="form-control"
+                            required
+                        />
+                    </div>
+                    <div class="form-group mb-3">
+                        <input
+                            type="email"
+                            id="email"
+                            placeholder="Email"
+                            class="form-control"
+                            required
+                        />
+                    </div>
+                    <div class="form-group mb-3">
+                        <input
+                            type="text"
+                            id="telephone"
+                            placeholder="Téléphone"
+                            class="form-control"
+                        />
+                    </div>
+                    <div class="form-group mb-3">
+                        <textarea
+                            id="adresse"
+                            placeholder="Adresse"
+                            class="form-control"
+                        ></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary mt-2">
+                        Enregistrer
+                    </button>
+                </form>
+            </section>
+
+            <!-- Section Paiements -->
+            <section id="paiements-section" class="my-5">
+                <h2>Gestion des Paiements</h2>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Commande ID</th>
+                            <th>Montant</th>
+                            <th>Date de Paiement</th>
+                            <th>Méthode</th>
+                            <th>Statut</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="paiement-table">
+                        <!-- Liste des paiements sera chargée ici -->
+                    </tbody>
+                </table>
+                <form id="paiementForm" class="my-3">
+                    <h4>Ajouter un Paiement</h4>
+                    <input
+                        type="number"
+                        id="commande_id"
+                        placeholder="Commande ID"
+                        class="form-control"
+                        required
+                    />
+                    <input
+                        type="number"
+                        id="montant"
+                        placeholder="Montant"
+                        class="form-control"
+                        required
+                    />
+                    <input
+                        type="date"
+                        id="date_paiement"
+                        class="form-control"
+                        required
+                    />
+                    <input
+                        type="text"
+                        id="methode"
+                        placeholder="Méthode"
+                        class="form-control"
+                    />
+                    <select id="statut" class="form-control">
+                        <option value="Réussi">Réussi</option>
+                        <option value="Échoué">Échoué</option>
+                        <option value="En attente">En attente</option>
+                    </select>
+                    <button type="submit" class="btn btn-primary mt-2">
+                        Enregistrer
+                    </button>
+                </form>
+            </section>
+        </div>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+        <script src="script.js" type="module"></script>
+    </body>
+</html>
